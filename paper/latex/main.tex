@@ -1,0 +1,423 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% arXiv submission template for cs.MA (Multiagent Systems)
+% Antigravity Nano Research Multiagentic Core
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% arXiv-compatible packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{cite}
+\usepackage{colortbl}
+\usepackage{pifont}
+
+% Define checkmark and cross symbols
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+% TikZ libraries
+\usetikzlibrary{positioning,arrows.meta,shapes,calc,backgrounds,fit,decorations.pathreplacing}
+\pgfplotsset{compat=1.18}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={Antigravity Nano Research Multiagentic Core: A Research Framework for Multi-Agent AI Systems in Computational Sciences},
+    pdfauthor={Luis José Yudico-Anaya}
+}
+
+% Page setup
+\usepackage[margin=1in]{geometry}
+
+% Custom commands
+\newcommand{\code}[1]{\texttt{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{Antigravity Nano Research Multiagentic Core: \\
+A Research Framework for Multi-Agent AI Systems in Computational Sciences}
+
+\author{
+    Luis José Yudico-Anaya \\
+    \small Universidad de La Ciénega del Estado de Michoacán de Ocampo, México \\
+    \small \texttt{ORCID: 0000-0002-7490-3304}
+}
+
+\date{May 12, 2026}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+The adoption of multi-agent systems based on large language models (LLMs) in computational science research faces three critical barriers: (1) \textbf{framework fragmentation} — researchers must choose between LangGraph, CrewAI, AutoGen, smolagents, and others without systematic comparison or selection guidance, limiting informed adoption, (2) \textbf{domain integration gap} — general-purpose agent frameworks lack integration with scientific domain tools (atomistic simulators, materials databases, spectroscopic pipelines), while specialized scientific platforms do not provide multi-agent orchestration capabilities, and (3) \textbf{economic accessibility} — most implementations assume access to paid APIs, excluding institutions without dedicated budgets and preventing reproducible research at scale.
+
+\textbf{Antigravity Nano Research Multiagentic Core} is a research framework that addresses these barriers by providing a modular infrastructure for conducting computational science research with multi-agent AI systems. The architecture integrates seven agent orchestration frameworks (LangGraph, CrewAI, Google ADK, smolagents, AutoGen, LangChain, MetaGPT) with a complete scientific computing stack, structured in three interdependent levels: (1) \textbf{Research Infrastructure Core} — 13 versioned External Skills modules (\code{load\_skill("episodic\_retriever@1.0.0")}), unified LLM routing across four backends (OpenRouter, Gemini, OpenAI, Ollama), and Graph Retrieval-Augmented Generation (RAG) with four storage engines (NetworkX, Kùzu, Neo4j, Graphiti), (2) \textbf{Multi-Agent Development Methodology} — a formal 7-agent governance model with structured feedback loops (L1: safety validation, L2: experimental comparison, L3: quality audit), and (3) \textbf{Domain-Specific Research Demonstration} — complete scientific research pipeline applied to computational nanotechnology, including integration with Materials Project API, Atomic Simulation Environment (ASE), and production deployment patterns.
+
+The framework is validated through a non-trivial scientific application: Au$_{13}$ nanocluster research with a four-tool agentic pipeline (ASE/EMT geometry optimization, scikit-learn Gradient Boosting property prediction, Graph RAG literature retrieval, structured JSON reporting). This demonstration is fully reproducible without API keys (\$0 cost) using only open-source tools, while production research sessions cost \$0.01–\$0.05 with Gemini 2.5 Flash or \$0 with Ollama local inference. The modular architecture is domain-agnostic: although demonstrated in nanotechnology, all infrastructure components transfer to other computational science domains (bioinformatics, quantum chemistry, climate modeling) by replacing domain-specific modules while reusing the multi-agent orchestration layer.
+
+\textbf{Cost accessibility:} executing the complete curriculum costs less than \$2 using OpenRouter with multi-provider LLM access, or \$0 with local Ollama inference. Validation: 102 automated tests, GitHub Actions continuous integration.
+
+\end{abstract}
+
+\noindent\textbf{Keywords:} Multi-agent systems, Agentic AI, Large language models, Computational sciences, Graph RAG, Model Context Protocol, Open science
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+The adoption of LLM-based agents in computational science is growing rapidly, yet the existing ecosystem presents a fragmented landscape. General-purpose frameworks (LangGraph, CrewAI, Google ADK, smolagents, AutoGen, MetaGPT~\cite{metgpt2023}) do not address domain-specific scientific tools such as atomistic simulators, materials databases, or spectroscopic data pipelines. Conversely, specialized computational chemistry platforms (AiiDA, AutomatMiner, ChemCrow) do not offer multi-agent orchestration, educational curricula, or systematic comparison of LLM frameworks.
+
+This gap has practical consequences: a researcher who wishes to conduct computational science research using multi-agent AI systems must integrate multiple libraries without guidance on how to select, combine, or evaluate frameworks for scientific workflows. No existing open resource provides simultaneously (1) a production-ready research infrastructure with scientific domain integration, (2) a principled comparison of seven major agent frameworks from the perspective of computational science, (3) a demonstration executable without paid API access, and (4) a domain-agnostic architecture transferable across scientific disciplines.
+
+Table~\ref{tab:comparison} compares this work against existing multi-agent frameworks and scientific platforms. Figure~\ref{fig:curriculum} illustrates the six-unit curriculum structure that progressively covers nanoscale modeling, molecular simulation, machine learning, and multi-agent orchestration.
+
+% INPUT TABLE 1
+\input{tables/table1_comparison}
+
+% INPUT FIGURE 1
+\input{figures/figure1_curriculum}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Statement of Need}
+
+\textbf{Research methodology gap:} No existing work documents transparently how multi-agent AI systems can be used to develop scientific research software itself. The meta-loop demonstrated here — where the 7-agent council co-develops the research framework while being part of what it documents — provides a reproducible case study for research-through-AI-collaboration methodologies applicable to computational science software development.
+
+\textbf{Accessibility and cost} represent an additional barrier that existing tools do not address systematically. Table~\ref{tab:costs} summarizes the cost profile for representative research usage scenarios:
+
+% INPUT TABLE 2
+\input{tables/table2_costs}
+
+Antigravity Nano Research Multiagentic Core addresses all four gaps within a single, cohesive repository. The meta-notebook \code{U5\_00} documents explicitly how an AI system (Antigravity) collaborated with the human author to design the skill architecture, generate code, and audit quality — making the development process itself a research case study in human-AI collaboration for scientific software development.
+
+Figure~\ref{fig:cost_comparison} provides a visual comparison of cost scenarios, demonstrating the framework's accessibility advantage over traditional approaches.
+
+% INPUT FIGURE 7 (Cost Comparison)
+\input{figures/figure7_cost_comparison}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contributions}
+
+This work makes six primary contributions to multi-agent systems research and computational science:
+
+\subsection{Research Infrastructure Contributions}
+
+\textbf{C1. Multi-Framework Integration Architecture.}
+A modular infrastructure layer that unifies seven agent orchestration frameworks (LangGraph, CrewAI, Google ADK, smolagents, AutoGen, LangChain, MetaGPT) with systematic comparison metrics (token usage, latency, cost per research session). The unified \code{get\_llm()} routing function provides transparent backend selection across four LLM providers (OpenRouter, Google Gemini, OpenAI, Ollama), enabling execution in resource-constrained environments without code changes.
+
+\textbf{C2. Domain-Agnostic External Skills Registry.}
+A versioned skill module system (\code{load\_skill()} with semantic versioning) providing 13 production-ready components organized in 10 categories (numerical, memory, ai\_mining, pedagogy, evaluation, observability, routing, apis, orchestration, agent\_warmup). Scientific-domain modules include \code{stability\_guardian} (MD timestep validation), \code{basis\_set\_architect} (DFT basis recommendation), \code{toxicity\_predictor} (molecular toxicity heuristics), and \code{librarian\_rag} (Materials Project retrieval). The architecture is transferable: domain modules can be replaced while reusing infrastructure components, enabling adaptation to other computational science disciplines.
+
+\textbf{C3. Multi-Backend Graph RAG Decision Framework.}
+Implementation and performance comparison of four Graph RAG storage engines (NetworkX, Kùzu, Neo4j, Graphiti) with a decision table mapping research use cases to optimal backend selection. Includes Model Context Protocol (MCP) server implementation (\code{nano-materials-mcp}) demonstrating LLM-agnostic scientific tool interfaces. Figure~\ref{fig:graphrag_decision} provides a decision tree for backend selection.
+
+% INPUT FIGURE 6 (Graph RAG Decision Tree)
+\input{figures/figure6_graphrag_decision}
+
+\subsection{Methodological Contributions}
+
+\textbf{C4. Self-Referential Development Methodology.}
+A 7-agent governance model with formal feedback loops (L1: safety validation, L2: experimental comparison, L3: quality audit). The repository documents transparently how this multi-agent system co-developed itself, providing a reproducible case study in human-AI collaboration for research software development. Figure~\ref{fig:governance} illustrates the complete workflow.
+
+% INPUT FIGURE 3 (7-Agent Governance)
+\input{figures/figure3_governance}
+
+\textbf{C5. Zero-Cost Reproducible Research Pipeline.}
+Au$_{13}$ nanocluster investigation pipeline (Unit 6, Section 5A) executable without any API keys, using only open-source tools. This provides an accessible entry point for research groups without GPU infrastructure or API budgets to prototype agentic workflows.
+
+\subsection{Educational Contributions}
+
+\textbf{C6. Complete Curriculum for Agentic AI in Computational Sciences.}
+25 Jupyter notebooks organized in 6 progressive units covering nanoscale modeling, molecular simulation, machine learning, multi-agent orchestration, and production deployment. Includes a 100-point research rubric for project evaluation. Active deployment in undergraduate course at UCEMICH, México.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{System Architecture}
+
+The framework operates at three interdependent levels: (1) Development layer with the 7-agent governance council, (2) Infrastructure layer with multi-framework integration and Graph RAG backends, and (3) Education layer providing progressive curriculum and external skills.
+
+% INPUT FIGURE 2 (REMOVED - graphic not clear)
+% \input{figures/figure2_architecture}
+
+\subsection{Multi-Agent Governance Model}
+
+The 7-agent council implements a structured workflow with three validation checkpoints (L1, L2, L3) that ensure quality control throughout the development process.
+
+\textbf{Agent Roles and Specialized Responsibilities:}
+
+\begin{itemize}
+    \item \textbf{@Architect:} Guards project structure and memory coherence
+    \item \textbf{@Scientist:} Ensures theoretical correctness and validates scientific notation
+    \item \textbf{@Engineer:} Implements code following best practices
+    \item \textbf{@Safety\_Gate:} L1 validation checkpoint (numerical stability, toxicology, pedagogy)
+    \item \textbf{@Analyst:} Conducts deep analysis and visualization
+    \item \textbf{@Librarian:} L2 validation checkpoint (experimental comparison vs. Materials Project)
+    \item \textbf{@QA:} L3 validation checkpoint (code quality audit, test coverage)
+\end{itemize}
+
+The complete governance workflow is documented in \code{GOVERNANCE.md} and demonstrated live in meta-notebook \code{U5\_00}.
+
+\subsection{Curriculum Structure}
+
+Table~\ref{tab:curriculum} summarizes the six-unit curriculum structure:
+
+% INPUT TABLE 3
+\input{tables/table3_curriculum}
+
+\subsection{External Skills Registry}
+
+Table~\ref{tab:skills} lists the 13 External Skills modules organized by category:
+
+% INPUT TABLE 4 (External Skills)
+\input{tables/table4_skills}
+
+\subsection{Graph RAG with Multiple Backends}
+
+Table~\ref{tab:graphrag} provides a decision framework for backend selection based on research requirements:
+
+% INPUT TABLE 5 (Graph RAG backends)
+\input{tables/table5_graphrag}
+
+\subsection{Model Context Protocol Integration}
+
+Notebook U5\_04 implements a \code{nano-materials-mcp} server~\cite{MCP2024} demonstrating the Model Context Protocol pattern by exposing nanomaterials property query tools over stdio. MCP provides three critical benefits for scientific reproducibility:
+
+\textbf{1. Decoupling:} LLM orchestration frameworks (LangGraph, CrewAI, ADK) and scientific domain tools (ASE, RDKit, Materials Project API) communicate via a version-pinned protocol, preventing framework updates from breaking scientific workflows.
+
+\textbf{2. LLM-Agnostic Interface:} Any MCP-compatible client can consume the server without code changes. Researchers can switch from Gemini to Claude to Llama without modifying domain tool implementations.
+
+\textbf{3. Reproducible Research Metadata:} MCP server version is specified in research outputs, enabling exact reproduction. Figure~\ref{fig:mcp} illustrates the three-layer MCP integration pattern.
+
+% INPUT FIGURE 5 (MCP Integration)
+\input{figures/figure5_mcp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation Requirements and Performance}
+
+\subsection{Software Requirements}
+
+The framework requires Python 3.10+ with dependencies managed through \code{requirements.txt}:
+
+\begin{itemize}
+    \item \textbf{Core scientific stack:} ASE~\cite{Larsen2017}, scikit-learn~\cite{Pedregosa2011}, NumPy~\cite{Harris2020}, RDKit
+    \item \textbf{Multi-agent frameworks:} LangGraph~\cite{LangGraph2024}, CrewAI~\cite{CrewAI2024}, Google ADK~\cite{GoogleADK2025}, smolagents~\cite{Smolagents2024}, AutoGen~\cite{AutoGen2023}, MetaGPT~\cite{MetaGPT2023}
+    \item \textbf{Graph databases:} NetworkX~\cite{NetworkX2008}, Kùzu~\cite{Kuzu2023}, Neo4j Python driver, Graphiti~\cite{Graphiti2024}
+    \item \textbf{LLM integration:} LangChain, \code{langchain\_google\_genai}, OpenAI SDK, Ollama
+    \item \textbf{Deployment:} FastAPI~\cite{FastAPI2018}, Docker, pytest
+\end{itemize}
+
+Installation is automated via \code{setup.sh} (Linux/macOS) or \code{setup.bat} (Windows), with verification through \code{verify\_installation.py} (102 automated tests).
+
+\subsection{Performance Benchmarks}
+
+Table~\ref{tab:frameworks} summarizes quantitative performance comparison of the seven integrated multi-agent frameworks on the Au$_{13}$ nanocluster optimization task:
+
+% INPUT TABLE 6 (Framework Performance)
+\input{tables/table6_frameworks}
+
+Key findings: smolagents achieves the lowest token usage and latency, while LangGraph and Google ADK offer the highest success rates (100\%). The unified interface enables researchers to select frameworks based on specific requirements (cost vs. reliability trade-offs).
+
+\subsection{Validation and Testing}
+
+Continuous integration via GitHub Actions validates the framework across multiple Python versions (3.10, 3.11, 3.12) and operating systems (Ubuntu, macOS, Windows). The test suite includes:
+
+\begin{itemize}
+    \item Unit tests for all External Skills modules (>85\% coverage)
+    \item Integration tests for multi-agent workflows
+    \item End-to-end pipeline tests (Au$_{13}$ demonstration)
+    \item Documentation build verification (MkDocs)
+    \item Code quality checks (ruff, black, mypy)
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+\subsection{Design Trade-offs}
+
+The framework prioritizes \textbf{accessibility and transferability} over absolute performance optimization. The unified \code{get\_llm()} interface introduces minimal overhead (~10ms per call) but enables backend switching without code changes, critical for reproducible research across institutional contexts.
+
+The External Skills versioning system (\code{load\_skill("name@version")}) ensures reproducibility at the cost of increased maintenance complexity. This trade-off is justified for scientific software where exact reproduction of published results is essential.
+
+\subsection{Cost vs. Capability Analysis}
+
+Real-world validation demonstrates that the complete 25-notebook curriculum executes for less than \$2 using OpenRouter multi-provider access, or \$0 with local Ollama inference. This represents a 27× cost reduction compared to GPT-4-based implementations (estimated \$50+ for equivalent workload), addressing a critical adoption barrier for resource-constrained institutions.
+
+The zero-cost Au$_{13}$ demonstration (Unit 6, Section 5A) requires only open-source tools (ASE, scikit-learn, NetworkX), enabling institutions without any API budget to prototype agentic workflows.
+
+\subsection{Limitations and Future Work}
+
+\textbf{Current limitations:}
+
+\begin{itemize}
+    \item Domain demonstration limited to computational nanotechnology (though architecture is transferable)
+    \item Graph RAG implementations do not include vector embedding search (pure graph traversal only)
+    \item MCP server examples limited to nanomaterials domain
+    \item Educational deployment limited to one institution (UCEMICH, México)
+\end{itemize}
+
+\textbf{Future development directions:}
+
+\begin{itemize}
+    \item Domain transfer case studies: bioinformatics (\code{bio-mcp}), quantum chemistry (\code{qchem-mcp}), climate science (\code{climate-mcp})
+    \item Hybrid Graph RAG + vector embeddings for semantic + structural retrieval
+    \item Extended External Skills registry with community contributions
+    \item Multi-institutional educational deployment with learning analytics
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{AI Usage Disclosure}
+
+This work transparently documents the role of AI systems in its development, adhering to emerging standards for AI-assisted research~\cite{MetaGPT2023}.
+
+\subsection{AI-Assisted Development Process}
+
+The repository was co-developed using the Antigravity AI system (a multi-agent orchestration framework similar to those evaluated in this work) in collaboration with the human author. The development process followed the seven-agent governance model documented in Section~\ref{sec:governance}, with specific agent roles (@Architect, @Scientist, @Engineer, @Safety\_Gate, @Analyst, @Librarian, @QA) handling architecture design, scientific validation, code implementation, numerical safety checks, performance analysis, experimental validation, and quality auditing respectively.
+
+\subsection{Scope of AI Contribution}
+
+\textbf{AI-generated components:}
+\begin{itemize}
+    \item External Skills module implementations (with human validation)
+    \item Unit 5 multi-agent framework integration code
+    \item Performance benchmarking scripts
+    \item Documentation and docstrings
+    \item Test suite scaffolding
+\end{itemize}
+
+\textbf{Human-authored components:}
+\begin{itemize}
+    \item Overall architecture and research design
+    \item Scientific domain knowledge (Units 1-4)
+    \item Pedagogical curriculum structure
+    \item Final validation of all scientific claims
+    \item Manuscript writing and revision
+\end{itemize}
+
+The meta-notebook \code{U5\_00\_META\_CONSTRUYENDO\_CON\_IA.ipynb} provides a complete, transparent record of the human-AI collaboration process, including conversation transcripts and decision points. This serves as a reproducible case study in multi-agent collaboration for scientific software development.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgements}
+
+The author acknowledges Universidad de La Ciénega del Estado de Michoacán de Ocampo (UCEMICH) for supporting the development and deployment of this educational framework. Thanks to the students of the Computational Nanotechnology course (Spring 2026) for providing feedback during curriculum testing.
+
+This work builds upon the open-source scientific Python ecosystem, particularly the Atomic Simulation Environment (ASE)~\cite{Larsen2017}, scikit-learn~\cite{Pedregosa2011}, and NetworkX~\cite{NetworkX2008}. The multi-agent frameworks evaluated (LangGraph, CrewAI, Google ADK, smolagents, AutoGen, LangChain, MetaGPT) are acknowledged for their pioneering contributions to LLM-based agent orchestration.
+
+Development was conducted using AI assistance (Antigravity multi-agent system) under the governance model documented in this work, representing a proof-of-concept for the self-referential development methodology described herein.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
+\input{tables/table4_skills}
+
+\subsection{Graph RAG with Multiple Backends}
+
+Table~\ref{tab:graphrag} provides a decision framework for backend selection based on research requirements:
+
+% INPUT TABLE 5
+\input{tables/table5_graphrag}
+
+\subsection{Model Context Protocol Integration}
+
+Figure~\ref{fig:mcp} illustrates the MCP integration pattern that enables reproducible, LLM-agnostic scientific tool interfaces.
+
+% INPUT FIGURE 5 (MCP Pattern)
+\input{figures/figure5_mcp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation and Performance}
+
+\subsection{Software Requirements}
+
+\begin{itemize}
+    \item Python 3.11 (compatibility with ASE 3.22+, RDKit 2023.09+)
+    \item Conda/Miniconda for environment management
+    \item Memory: 4GB RAM minimum (8GB recommended)
+    \item Optional: CUDA-capable GPU for OpenMM acceleration
+\end{itemize}
+
+\subsection{Execution Performance Benchmarks}
+
+Measured on Intel i7-10700K, 16GB RAM, no GPU:
+
+\begin{itemize}
+    \item Au$_{13}$ demo pipeline (Unit 6, Section 5A): $\sim$45 seconds (no API)
+    \item Au$_{13}$ with live LLM (Section 5B): $\sim$2-3 minutes (Gemini 2.5 Flash)
+    \item Complete curriculum (25 notebooks): $<$\$2.00 (OpenRouter)
+    \item Test suite execution: $\sim$12 seconds (102 tests, pytest-xdist parallel)
+\end{itemize}
+
+\subsection{Automated Test Suite}
+
+The project includes 102 automated tests validated on Python 3.11 with pytest 9.0.2, achieving 87\% code coverage.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+\subsection{Multi-Agent Framework Trade-offs}
+
+Systematic comparison of the seven integrated frameworks reveals practical trade-offs for computational science research. Table~\ref{tab:frameworks} and Figure~\ref{fig:performance} present quantitative benchmarks from the Au$_{13}$ nanocluster optimization task:
+
+% INPUT TABLE 6 (Framework Comparison)
+\input{tables/table6_frameworks}
+
+% INPUT FIGURE 4 (Performance Comparison)
+\input{figures/figure4_performance}
+
+\subsection{Cost-Accessibility Balance for Research}
+
+The dual-path architecture (zero-cost demo + low-cost production) addresses a critical gap in computational science: research reproducibility without excluding resource-constrained institutions. \textbf{Real-world validation:} executing the complete 25-notebook curriculum using OpenRouter with multi-provider access costs less than \$2.00 total.
+
+\subsection{Limitations and Future Research Directions}
+
+\textbf{Current limitations:}
+\begin{itemize}
+    \item Domain transfer requires Python proficiency and familiarity with target domain tools
+    \item Graph RAG performance not systematically benchmarked against commercial solutions
+    \item MCP ecosystem still emerging; limited production deployments
+    \item 7-agent council governance model not validated across multiple research domains
+\end{itemize}
+
+\textbf{Future research directions:}
+\begin{enumerate}
+    \item Expand External Skills registry to 50+ modules covering additional domains
+    \item Benchmark Graph RAG backends on Materials Project full database (>150K materials)
+    \item Develop auto-configuration wizard for semi-automated domain adaptation
+    \item Validate 7-agent council pattern in collaborative multi-institutional projects
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{AI Usage Disclosure}
+
+This software and the accompanying paper were developed with substantive assistance from generative AI tools. The repository structure, skill module architecture, and test suite were co-designed with the Antigravity agent development IDE (Google), structured as a seven-agent council as defined in \code{GOVERNANCE.md}. LLM API providers used were Google AI Studio (free tier), OpenRouter, and Claude API (Anthropic). All generated code was reviewed, tested against the 102-test automated suite, and verified by the author.
+
+\textbf{Cost Transparency:} Development and testing utilized promotional credits from Google AI Studio provided through the Antigravity platform. All cost estimates reported throughout this work (\$0.01--\$0.05 per session, <\$2 complete curriculum) reflect actual commercial API pricing for researchers using paid services (OpenRouter, Gemini API, etc.) without promotional access. Zero-cost alternatives remain available through local Ollama inference and the demo Au$_{13}$ pipeline requiring no API keys.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgements}
+
+The author thanks the teams behind the open-source tools that form the technical foundation: ASE (DTU Physics), LangGraph and LangSmith (LangChain Inc.), smolagents (Hugging Face), Google ADK (Google LLC), AutoGen (Microsoft Research), MetaGPT, Model Context Protocol (Anthropic), Kùzu, Graphiti (Zep AI), FastAPI, NetworkX, scikit-learn, and NumPy.
+
+This work was carried out at the Universidad de La Ciénega del Estado de Michoacán de Ocampo (UCEMICH), México.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,29 @@
+{
+  "project_root": "C:\\IA Nanotecnolog\u00eda\\Antigravity-Nano-Research-Multiagentic-Core-main\\educational_content\\Proyecto final",
+  "data_processed": "C:\\IA Nanotecnolog\u00eda\\Antigravity-Nano-Research-Multiagentic-Core-main\\educational_content\\Proyecto final\\data\\processed",
+  "classes": [
+    "nanoparticles",
+    "nanowires"
+  ],
+  "class_to_idx": {
+    "nanoparticles": 0,
+    "nanowires": 1
+  },
+  "n_train": 4947,
+  "n_val": 1059,
+  "n_test": 1062,
+  "image_size": 224,
+  "batch_size": 32,
+  "imagenet_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "imagenet_std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "source": "NFFA-EUROPE SEM Dataset (b2share.eudat.eu)",
+  "doi": "10.1038/s41598-017-13565-z"
+}

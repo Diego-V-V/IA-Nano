@@ -61,6 +61,11 @@ htmlcov/
 *.cdf
 data/raw/*
 !data/raw/.gitkeep
+# Proyecto Final — excluir datos raw y procesados (generados por NB01)
+educational_content/Proyecto final/data/raw/*
+!educational_content/Proyecto final/data/raw/.gitkeep
+educational_content/Proyecto final/data/processed/*
+!educational_content/Proyecto final/data/processed/.gitkeep
 
 # Temporary files
 *.tmp
@@ -88,10 +93,13 @@ mp_config.json
 *.bak
 
 # Model artifacts (generated during training)
-*.pth
+# NOTA: Los modelos grandes se excluyen del repo. Ver instrucciones en README para descargar.
 *.pkl
 *.onnx
 *.onnx.data
+# Excluir .pth globalmente EXCEPTO placeholder de modelo del Proyecto Final
+*.pth
+!educational_content/Proyecto final/models/.gitkeep
 
 # Generated plots (auto-created by notebooks)
 educational_content/unit_03_ml_nanomaterials/*.png
@@ -142,3 +150,13 @@ u6_04_cell5.txt
 u6_cells.txt
 u6_map.txt
 tmp/
+
+# Proyecto Final — archivos runtime generados
+educational_content/Proyecto final/api/__pycache__/
+educational_content/Proyecto final/api/agents/__pycache__/
+educational_content/Proyecto final/chroma_db/
+# Proyecto Final — imágenes grandes de reportes (generadas en NB03)
+educational_content/Proyecto final/reports/*.png
+# Mantener los JSON de métricas y los reports .md
+!educational_content/Proyecto final/reports/*.json
+!educational_content/Proyecto final/reports/*.md

@@ -1,0 +1,40 @@
+% Figure 5: Model Context Protocol Integration Pattern (Compact)
+\begin{figure}[htbp]
+\centering
+\resizebox{0.88\textwidth}{!}{
+\begin{tikzpicture}[
+    layer/.style={rectangle, draw, thick, minimum width=8cm, minimum height=1.1cm, align=center, font=\small},
+    component/.style={rectangle, rounded corners, draw, fill=blue!10, minimum width=2cm, minimum height=0.7cm, font=\scriptsize}
+]
+
+% Layers
+\node[layer, fill=purple!15, draw=purple!60] (orch) {\textbf{LLM Orchestrator Layer}\\
+    \footnotesize LangGraph / CrewAI / ADK / smolagents};
+\node[layer, fill=orange!15, draw=orange!60, below=1cm of orch] (mcp) {\textbf{MCP Server Layer}\\
+    \footnotesize \texttt{nano-materials-mcp@1.2.0}};
+\node[layer, fill=green!15, draw=green!60, below=1cm of mcp] (tools) {\textbf{Scientific Tools Layer}};
+
+% Tools components
+\node[component, below=0.35cm of tools, xshift=-2.5cm] (ase) {ASE\\Optimizer};
+\node[component, below=0.35cm of tools] (mp) {Materials\\Project};
+\node[component, below=0.35cm of tools, xshift=2.5cm] (rdkit) {RDKit\\Analyzer};
+
+% Connections
+\draw[->, thick, purple] (orch.south) -- node[right, font=\tiny] {stdio} (mcp.north);
+\draw[->, thick, orange] (mcp.south) -- node[right, font=\tiny, red] {Version pinned} (tools.north);
+\draw[->, thick, green!70!black] (tools.south) -- (ase.north);
+\draw[->, thick, green!70!black] (tools.south) -- (mp.north);
+\draw[->, thick, green!70!black] (tools.south) -- (rdkit.north);
+
+% Domain transfer examples (below, compact)
+\node[draw=blue, fill=blue!5, text width=7.8cm, align=left, font=\tiny, anchor=north] 
+    at ([yshift=-0.85cm]mp.south) {
+    \textbf{Domain Transfer:} Replace Tools Layer only\\
+    Bio: \texttt{bio-mcp}; Quantum: \texttt{qchem-mcp}; Climate: \texttt{climate-mcp}
+};
+
+\end{tikzpicture}
+}
+\caption{Model Context Protocol (MCP) integration architecture. The MCP server layer decouples LLM orchestration from scientific domain tools, enabling framework-agnostic reproducibility through version pinning. Any MCP-compatible client can consume the server without code changes, essential for long-term reproducibility as LLM frameworks evolve.}
+\label{fig:mcp}
+\end{figure}

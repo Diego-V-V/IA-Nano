@@ -1,0 +1,28 @@
+# Proyecto Final: Clasificación SEM con Multi-Agente
+# ===================================================
+
+# Deep Learning & Computer Vision
+torch>=2.0.0
+torchvision>=0.15.0
+Pillow>=10.0.0
+
+# Data Science
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+tqdm>=4.65.0
+
+# Multi-Agent System (U5)
+langchain==0.3.25
+langchain-core==0.3.55
+langchain-openai==0.3.12
+langgraph==0.2.56
+chromadb>=0.4.0
+httpx>=0.24.0
+python-dotenv>=1.0.0
+
+# API (deployment)
+fastapi>=0.115.0
+uvicorn>=0.30.0
+pydantic>=2.0.0

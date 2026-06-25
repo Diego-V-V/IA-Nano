@@ -1,0 +1,53 @@
+% Figure 6: Graph RAG Backend Selection Decision Tree (Compact Design)
+\begin{figure}[htbp]
+\centering
+\resizebox{0.92\textwidth}{!}{
+\begin{tikzpicture}[
+    decision/.style={diamond, draw=blue!60, fill=blue!10, thick, align=center, 
+                     minimum width=2.2cm, minimum height=1cm, font=\scriptsize},
+    backend/.style={rectangle, rounded corners, draw=green!60, fill=green!15, 
+                    thick, minimum width=2.5cm, minimum height=0.8cm, align=center, font=\scriptsize},
+    arrow/.style={->, >=stealth, thick},
+    label/.style={font=\tiny, midway, fill=white}
+]
+
+% Start
+\node[decision] (start) {Data\\Volume?};
+
+% First level - left branch (<1M)
+\node[decision, below left=1cm and 2.5cm of start] (use) {Use\\Case?};
+\node[backend, below left=1cm and 0.8cm of use] (nx) {\textbf{NetworkX}\\<10K, Demo};
+\node[backend, below right=1cm and 0.8cm of use] (kuzu) {\textbf{Kùzu}\\<1M, Research};
+
+% First level - right branch (>1M)
+\node[decision, below right=1cm and 2.5cm of start] (query) {Query\\Type?};
+\node[backend, below left=1cm and 0.8cm of query] (graphiti) {\textbf{Graphiti}\\Temporal};
+\node[backend, below right=1cm and 0.8cm of query] (neo4j) {\textbf{Neo4j}\\Production};
+
+% Arrows - First level
+\draw[arrow] (start) -- node[label, left, pos=0.3] {<1M} (use);
+\draw[arrow] (start) -- node[label, right, pos=0.3] {>1M} (query);
+
+% Arrows - Second level (left)
+\draw[arrow] (use) -- node[label, left] {Prototype} (nx);
+\draw[arrow] (use) -- node[label, right] {Active} (kuzu);
+
+% Arrows - Second level (right)
+\draw[arrow] (query) -- node[label, left] {Episodic} (graphiti);
+\draw[arrow] (query) -- node[label, right] {Complex} (neo4j);
+
+% Add descriptive annotations below each backend
+\node[font=\tiny, text width=2.3cm, align=center, below=0.15cm of nx] 
+    {Zero-setup\\In-memory};
+\node[font=\tiny, text width=2.3cm, align=center, below=0.15cm of kuzu] 
+    {Embedded\\Local};
+\node[font=\tiny, text width=2.3cm, align=center, below=0.15cm of graphiti] 
+    {Agent memory\\Multi-session};
+\node[font=\tiny, text width=2.3cm, align=center, below=0.15cm of neo4j] 
+    {>1M nodes\\Cypher};
+
+\end{tikzpicture}
+}
+\caption{Graph RAG backend selection decision tree. The choice depends on data volume, deployment constraints, and query complexity. NetworkX provides zero-setup prototyping, Kùzu enables embedded local research, Neo4j scales to production, and Graphiti supports temporal episodic memory for long-running agents. See Table~\ref{tab:graphrag} for detailed comparison.}
+\label{fig:graphrag_decision}
+\end{figure}

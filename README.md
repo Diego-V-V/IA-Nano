@@ -7,9 +7,50 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-green.svg)](https://www.python.org/downloads/)
 [![Author](https://img.shields.io/badge/Author-ljyudico-blue.svg)](https://github.com/ljyudico)
 
-> **Curso de IA Aplicada a Investigación Científica y Tecnológica — Nanotecnología**
+> **Marco de Investigación para Sistemas Multi-Agente de IA en Ciencias Computacionales**
 
-Desarrollado por **[@ljyudico](https://github.com/ljyudico)** usando [Antigravity](https://github.com/google-deepmind/antigravity) como entorno de desarrollo multi-agente. Este repositorio contiene el material educativo completo (Unidades 1–6) para aprender IA aplicada a nanotecnología, desde simulación molecular hasta sistemas multi-agente y despliegue de modelos.
+Desarrollado por **[@ljyudico](https://github.com/ljyudico)** usando [Antigravity](https://github.com/google-deepmind/antigravity) como entorno de desarrollo multi-agente.
+
+---
+
+## 🎯 ¿Qué Problema Resuelve?
+
+La adopción de sistemas multi-agente basados en modelos de lenguaje grandes (LLMs) en investigación científica computacional enfrenta **tres barreras críticas**:
+
+1. **Fragmentación de Frameworks** — Los investigadores deben elegir entre LangGraph, CrewAI, AutoGen, smolagents y otros sin comparación sistemática ni guía de selección, limitando la adopción informada.
+
+2. **Brecha de Integración de Dominio** — Los frameworks de agentes de propósito general carecen de integración con herramientas científicas de dominio (simuladores atomísticos, bases de datos de materiales, pipelines espectroscópicos), mientras que las plataformas científicas especializadas no proveen capacidades de orquestación multi-agente.
+
+3. **Accesibilidad Económica** — La mayoría de las implementaciones asumen acceso a APIs de pago, excluyendo instituciones sin presupuesto dedicado e impidiendo investigación reproducible a escala.
+
+## 💡 ¿Qué Aporta Este Framework?
+
+**Antigravity Nano Research Multiagentic Core** es una infraestructura de investigación modular que resuelve estas barreras proporcionando:
+
+### Contribuciones Principales
+
+✅ **Integración Multi-Framework** — Interfaz unificada para 7 frameworks de orquestación de agentes (LangGraph, CrewAI, Google ADK, smolagents, AutoGen, LangChain, MetaGPT) con benchmarks sistemáticos de rendimiento
+
+✅ **Modelo de Gobernanza de 7 Agentes** — Metodología de desarrollo formal con bucles de retroalimentación estructurados (L1: validación de seguridad, L2: comparación experimental, L3: auditoría de calidad)
+
+✅ **Arquitectura Agnóstica de Dominio** — Diseño modular donde **los componentes de infraestructura (orquestación multi-agente, Graph RAG, servidores MCP) se transfieren a cualquier dominio de ciencias computacionales** reemplazando únicamente los módulos específicos del dominio
+
+✅ **Accesibilidad de Costos** — Currículum completo ejecutable por <$2 USD usando OpenRouter, o $0 con inferencia local Ollama. Demo sin costo (nanocluster Au₁₃) no requiere API keys.
+
+✅ **Skills Listas para Producción** — 13 módulos versionados de External Skills proporcionando validación científica, enrutamiento LLM y observabilidad
+
+✅ **Currículum Educativo Completo** — 25 notebooks Jupyter (6 unidades) cubriendo modelado a nanoescala, simulación molecular, aprendizaje automático y sistemas multi-agente
+
+### 🌍 Transferibilidad de Dominio
+
+**Demostrado en:** Nanotecnología computacional (Materials Project API, ASE, RDKit)
+
+**Transferible a:**
+- **Bioinformática** — Reemplazar con herramientas BioPython, UniProt, PDB
+- **Química Cuántica** — Reemplazar con benchmarks Psi4, PySCF, CCSD(T)
+- **Ciencia del Clima** — Reemplazar con modelos climlab, CESM, CMIP6
+
+La capa de orquestación multi-agente, backends Graph RAG y modelo de gobernanza permanecen sin cambios.
 
 ---
 
@@ -83,6 +124,35 @@ flowchart LR
 | **@Analyst** | Análisis profundo y visualización | `data-storytelling`, `descriptor_miner` |
 | **@Librarian** | Validación experimental (Materials Project) | `librarian_rag` |
 | **@QA** | Auditor supremo de calidad | `systematic-debugging`, `code-review-excellence` |
+
+### 📊 Benchmarks de Frameworks Multi-Agente
+
+Comparación sistemática de 7 frameworks en pipeline Au₁₃ (token usage, latencia, tasa de éxito, costo):
+
+<p align="center">
+  <img src="paper/figure4_performance.png" alt="Performance Comparison" width="600">
+</p>
+
+**Hallazgos clave:**
+- **smolagents** logra el menor uso de tokens (87K) y latencia (12.5s)
+- **LangGraph** y **Google ADK** ofrecen la mejor confiabilidad (100% éxito)
+- **MetaGPT** tiene el mayor overhead de coordinación
+
+
+### 🗄️ Selección de Backend Graph RAG
+
+Árbol de decisión para elegir entre NetworkX, Kùzu, Neo4j y Graphiti según volumen de datos y restricciones de despliegue:
+
+<p align="center">
+  <img src="paper/figure6_graphrag_decision.png" alt="Graph RAG Decision Tree" width="600">
+</p>
+
+**Guía de selección:**
+- **NetworkX**: Prototipos <10K nodos, cero configuración
+- **Kùzu**: Investigación local embebida <1M nodos
+- **Neo4j**: Producción >1M nodos, alta concurrencia
+- **Graphiti**: Memoria episódica temporal para agentes de larga duración
+
 
 ---
 

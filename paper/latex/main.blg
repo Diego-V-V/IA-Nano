@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 6 items.
+The style file: plain.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
+Database file #1: references.bib
+Warning--I didn't find a database entry for "metgpt2023"
+You've used 14 entries,
+            2118 wiz_defined-function locations,
+            583 strings with 6802 characters,
+and the built_in function-call counts, 5091 in all, are:
+= -- 438
+> -- 385
+< -- 1
++ -- 155
+- -- 140
+* -- 383
+:= -- 897
+add.period$ -- 37
+call.type$ -- 14
+change.case$ -- 108
+chr.to.int$ -- 0
+cite$ -- 14
+duplicate$ -- 140
+empty$ -- 332
+format.name$ -- 140
+if$ -- 1005
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 8
+newline$ -- 67
+num.names$ -- 28
+pop$ -- 139
+preamble$ -- 1
+purify$ -- 94
+quote$ -- 0
+skip$ -- 115
+stack$ -- 0
+substring$ -- 169
+swap$ -- 23
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 56
+warning$ -- 0
+while$ -- 36
+width$ -- 16
+write$ -- 135
+(There was 1 warning)

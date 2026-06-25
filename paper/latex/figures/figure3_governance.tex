@@ -1,0 +1,49 @@
+% Figure 3: Seven-Agent Governance Workflow (Compact Horizontal Layout)
+\begin{figure}[htbp]
+\centering
+\resizebox{0.95\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=1.5cm and 1.2cm,
+    agent/.style={rectangle, rounded corners, draw=blue!60, fill=blue!10, 
+                  thick, minimum width=2cm, minimum height=1.2cm, align=center, font=\tiny},
+    gate/.style={rectangle, draw=red!60, fill=red!10, thick, 
+                 minimum width=2cm, minimum height=1.2cm, align=center, font=\tiny},
+    arrow/.style={->, >=stealth, thick},
+    feedback/.style={->, >=stealth, very thick, red, bend left=45}
+]
+
+% Row 1: Development agents
+\node[agent] (arch) {\textbf{@Architect}\\Design};
+\node[agent, right=of arch] (sci) {\textbf{@Scientist}\\Theory};
+\node[agent, right=of sci] (eng) {\textbf{@Engineer}\\Code};
+\node[gate, right=of eng] (l1) {\textbf{@Safety}\\\textcolor{red}{L1}};
+
+% Row 2: Analysis and quality
+\node[agent, below=of l1] (ana) {\textbf{@Analyst}\\Metrics};
+\node[gate, left=of ana] (l2) {\textbf{@Librarian}\\\textcolor{red}{L2}};
+\node[gate, left=of l2] (qa) {\textbf{@QA}\\\textcolor{red}{L3}};
+\node[agent, left=of qa, fill=green!20, draw=green!60] (deploy) {\textbf{Deploy}\\Ready};
+
+% Forward flow - Row 1
+\draw[arrow] (arch) -- (sci);
+\draw[arrow] (sci) -- (eng);
+\draw[arrow] (eng) -- (l1);
+
+% Vertical connections
+\draw[arrow] (l1) -- node[right, font=\tiny] {Pass} (ana);
+
+% Forward flow - Row 2 (reverse direction)
+\draw[arrow] (ana) -- (l2);
+\draw[arrow] (l2) -- node[above, font=\tiny] {Pass} (qa);
+\draw[arrow] (qa) -- (deploy);
+
+% Feedback loops using bend
+\draw[feedback] (l1.south) to[bend right=50] node[below, font=\tiny, pos=0.5] {Fail} (eng.south);
+\draw[feedback] (l2.north) to[bend left=50] node[above, font=\tiny, pos=0.5] {Fail} (sci.north);
+\draw[feedback] (qa.north) to[bend left=60] node[above, font=\tiny, pos=0.3] {Fail} (arch.north);
+
+\end{tikzpicture}
+}
+\caption{Seven-agent governance workflow with three validation checkpoints (L1: Safety, L2: Experimental, L3: Quality). Dashed red arrows indicate feedback loops when validation fails. This governance model ensures quality control throughout the development process and is itself a research contribution to multi-agent coordination patterns.}
+\label{fig:governance}
+\end{figure}

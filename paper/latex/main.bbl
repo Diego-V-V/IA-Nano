@@ -1,0 +1,83 @@
+\begin{thebibliography}{10}
+
+\bibitem{MCP2024}
+{Anthropic}.
+\newblock Model context protocol: A standard for connecting ai models to tools
+  and data, 2024.
+
+\bibitem{CrewAI2024}
+{CrewAI Team}.
+\newblock Crewai: Framework for orchestrating role-playing autonomous ai
+  agents, 2024.
+
+\bibitem{Kuzu2023}
+Xiyang Feng, Guodong Jindal, Ziyi Jin, Semih Li, Pankaj Kannan, and Kunle
+  Olukotun.
+\newblock K\`uzu: A columnar graph database management system.
+\newblock {\em arXiv preprint arXiv:2310.15589}, 2023.
+
+\bibitem{GoogleADK2025}
+{Google LLC}.
+\newblock Google agent development kit: Building agents with gemini, 2025.
+
+\bibitem{NetworkX2008}
+Aric Hagberg, Pieter Swart, and Daniel S~Chult.
+\newblock Exploring network structure, dynamics, and function using networkx.
+\newblock In {\em Proceedings of the 7th Python in Science Conference}, pages
+  11--15, 2008.
+
+\bibitem{Harris2020}
+Charles~R Harris, K~Jarrod Millman, St{\'e}fan~J Van Der~Walt, Ralf Gommers,
+  Pauli Virtanen, David Cournapeau, Eric Wieser, Julian Taylor, Sebastian Berg,
+  Nathaniel~J Smith, et~al.
+\newblock Array programming with numpy.
+\newblock {\em Nature}, 585(7825):357--362, 2020.
+
+\bibitem{MetaGPT2023}
+Sirui Hong, Xiawu Zheng, Jonathan Chen, Yuheng Cheng, Jinlin Zhang, Ceyao Wang,
+  Zili Wang, Steven Ka~Shing Yau, Zijuan Lin, Liyang Zhou, et~al.
+\newblock Metagpt: Meta programming for multi-agent collaborative framework.
+\newblock {\em arXiv preprint arXiv:2308.00352}, 2023.
+
+\bibitem{Smolagents2024}
+{Hugging Face}.
+\newblock smolagents: Simple agents for hugging face transformers, 2024.
+
+\bibitem{LangGraph2024}
+{LangChain Inc.}
+\newblock Langgraph: Multi-agent workflows for large language models.
+\newblock {\em GitHub repository}, 2024.
+
+\bibitem{Larsen2017}
+Ask~Hjorth Larsen, Jens~J{\o}rgen Mortensen, Jakob Blomqvist, Ivano~E Castelli,
+  Rune Christensen, Marcin Du{\l}ak, Jesper Friis, Michael~N Groves, Bj{\o}rk
+  Hammer, Cory Hargus, et~al.
+\newblock The atomic simulation environment—a python library for working with
+  atoms.
+\newblock {\em Journal of Physics: Condensed Matter}, 29(27):273002, 2017.
+
+\bibitem{Pedregosa2011}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, et~al.
+\newblock Scikit-learn: Machine learning in python.
+\newblock {\em Journal of machine learning research}, 12(Oct):2825--2830, 2011.
+
+\bibitem{FastAPI2018}
+Sebasti{\'a}n Ram{\'\i}rez.
+\newblock Fastapi: Modern web framework for building apis with python 3.7+
+  based on standard python type hints, 2018.
+
+\bibitem{AutoGen2023}
+Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Shaokun Zhang, Erkang Zhu,
+  Beibin Li, Li~Jiang, Xiaoyun Zhang, and Chi Wang.
+\newblock Autogen: Enabling next-gen llm applications via multi-agent
+  conversation framework.
+\newblock In {\em COLM 2024}. Microsoft Research, 2023.
+
+\bibitem{Graphiti2024}
+{Zep AI}.
+\newblock Graphiti: Temporal graph memory for long-term agent conversations,
+  2024.
+
+\end{thebibliography}

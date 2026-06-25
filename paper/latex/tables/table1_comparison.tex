@@ -1,0 +1,23 @@
+% Table 1: Comparison Against Existing Frameworks
+\begin{table}[htbp]
+\centering
+\caption{Comparison of this work against existing multi-agent frameworks and scientific platforms. No existing system provides all four capabilities simultaneously.}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{Capability} & \textbf{LangGraph} & \textbf{CrewAI} & \textbf{AutoGen} & \textbf{AiiDA} & \textbf{ChemCrow} & \textbf{This Work} \\
+\midrule
+Multi-agent orchestration & \cmark{} & \cmark{} & \cmark{} & \xmark{} & Partial & \cmark{} \\
+Scientific domain tools & \xmark{} & \xmark{} & \xmark{} & \cmark{} & \cmark{} & \cmark{} \\
+Framework comparison & N/A & N/A & N/A & N/A & N/A & \cmark{} (7) \\
+Educational curriculum & \xmark{} & \xmark{} & \xmark{} & Partial & \xmark{} & \cmark{} (25) \\
+Zero-cost demo & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \cmark{} \\
+Multi-backend LLM routing & Partial & \xmark{} & Partial & N/A & \xmark{} & \cmark{} (4) \\
+Graph RAG integration & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \cmark{} (4) \\
+MCP server examples & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \xmark{} & \cmark{} \\
+Domain transferability & General & General & General & Materials & Chemistry & Modular \\
+Governance model & \xmark{} & \xmark{} & \xmark{} & Workflow & \xmark{} & \cmark{} (7-agent) \\
+\bottomrule
+\end{tabular}
+\end{table}

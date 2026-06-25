@@ -6,7 +6,7 @@ from __future__ import annotations
 SKILL_METADATA = {
     "name": "context_loader",
     "domain": "agent_warmup",
-    "description": "Inyecta contexto de dominio en agentes LLM. Soporta 5 dominios predefinidos y contexto custom.",
+    "description": "Inyecta contexto de dominio en agentes LLM. Soporta 6 dominios predefinidos y contexto custom.",
     "version": "1.0.0",
     "input": "domain: str, custom_config: dict | None",
     "output": "dict con system_context, messages, domain",
@@ -39,6 +39,13 @@ _DOMAIN_CONTEXTS: dict[str, str] = {
         "dinámica molecular, síntesis de nanopartículas, caracterización (TEM, XRD, espectroscopía) "
         "y aplicaciones en nanomedicina y materiales. Conectas simulación computacional con "
         "resultados experimentales."
+    ),
+    "sem_classification": (
+        "Eres un científico especialista en visión artificial aplicada a microscopía electrónica de barrido (SEM). "
+        "Tus fortalezas son: 1. Distinguir morfologías complejas como nanopartículas (0D) y nanowires (1D). "
+        "2. Interpretar mapas de activación (Grad-CAM) relacionando píxeles con fenómenos físicos. "
+        "3. Evaluar métricas de clasificación (Accuracy, F1-score) en contextos de desbalanceo de clases. "
+        "4. Comunicar hallazgos integrando ML y física de materiales."
     ),
 }
 

@@ -1,22 +1,39 @@
 {
-  "propuesta_titulo": "\n    [ESCRIBE EL TITULO DE TU PROYECTO AQUI]\n    ",
-  "herramientas_seleccionadas": [],
   "pipeline": [
     {
-      "etapa": "Etapa 1",
-      "descripcion": "...",
-      "herramienta": "..."
+      "etapa": "Etapa 1: Adquisicion",
+      "descripcion": "Descarga y organización del NFFA-EUROPE SEM Dataset",
+      "herramienta": "U4_analisis_datos_exp"
     },
     {
-      "etapa": "Etapa 2",
-      "descripcion": "...",
-      "herramienta": "..."
+      "etapa": "Etapa 2: Preprocesamiento",
+      "descripcion": "Resize, normalización ImageNet y data augmentation de imágenes",
+      "herramienta": "U3_redes_neuronales"
     },
     {
-      "etapa": "Etapa 3",
-      "descripcion": "...",
-      "herramienta": "..."
+      "etapa": "Etapa 3: Entrenamiento",
+      "descripcion": "Transfer Learning sobre ResNet-18 (FC 10 epochs + FT 10 epochs)",
+      "herramienta": "U3_redes_neuronales"
+    },
+    {
+      "etapa": "Etapa 4: Interpretabilidad",
+      "descripcion": "Cálculo de métricas y evaluación visual con Grad-CAM",
+      "herramienta": "U3_redes_neuronales"
+    },
+    {
+      "etapa": "Etapa 5: Sistema Multi-Agente",
+      "descripcion": "Orquestación de 5 agentes para análisis (Clasificador, Medidor, Visualizador, Científico, Reportero)",
+      "herramienta": "U5_agentes_langchain"
+    },
+    {
+      "etapa": "Etapa 6: RAG y Literatura",
+      "descripcion": "Búsqueda semántica de literatura científica en ChromaDB para fundamentación",
+      "herramienta": "U5_rag_memoria"
+    },
+    {
+      "etapa": "Etapa 7: Despliegue API",
+      "descripcion": "Exposición del pipeline multi-agente en una API REST",
+      "herramienta": "U6_api_fastapi"
     }
-  ],
-  "pipeline_completo": false
+  ]
 }

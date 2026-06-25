@@ -1,0 +1,9 @@
+﻿Openrouter_api_key
+TU_OPENROUTER_API_KEY
+
+
+Google_api_key 
+TU_GOOGLE_API_KEY
+
+neo4j
+TU_NEO4J_PASSWORD

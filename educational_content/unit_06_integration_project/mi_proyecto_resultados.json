@@ -1,0 +1,7 @@
+{
+  "metrica_nombre": "Accuracy",
+  "metrica_valor": 0.9774,
+  "umbral_exito": 0.95,
+  "objetivo_superado": true,
+  "notas": "El modelo ResNet-18 clasificó con un accuracy de 97.74% y un AUC-ROC de 99.81%. Hubo solo 24 errores en 1062 imágenes de prueba."
+}

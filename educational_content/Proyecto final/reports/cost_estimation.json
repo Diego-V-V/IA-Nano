@@ -1,0 +1,97 @@
+{
+  "project": "Clasificador SEM Multi-Agente — Proyecto Final",
+  "date": "2026-05-13",
+  "version": "1.0.0",
+  "cost_breakdown": {
+    "NB01_dataset_preparation": {
+      "compute": "CPU only",
+      "network": "~200 MB download (NFFA-EUROPE dataset)",
+      "api_calls": 0,
+      "estimated_time_cpu": "5-10 min (descarga + preprocessing)",
+      "estimated_cost_usd": 0.00
+    },
+    "NB02_model_training": {
+      "compute": "CPU or GPU",
+      "network": "~45 MB download (ResNet-18 weights, one-time)",
+      "api_calls": 0,
+      "estimated_time_cpu": "15-25 min (20 epochs total)",
+      "estimated_time_gpu": "3-7 min (20 epochs total)",
+      "estimated_cost_usd": 0.00
+    },
+    "NB03_evaluation_gradcam": {
+      "compute": "CPU or GPU",
+      "network": "none",
+      "api_calls": 0,
+      "estimated_time_cpu": "2-5 min",
+      "estimated_cost_usd": 0.00
+    },
+    "NB04_multiagent_analysis": {
+      "compute": "CPU (minimal)",
+      "network": "API calls to OpenRouter + arXiv",
+      "api_calls_detail": {
+        "analyst_agent": {
+          "tool_calls": 3,
+          "description": "load_model_metrics + search_sem_papers + index_papers",
+          "estimated_tokens": "3000-5000"
+        },
+        "scientist_node": {
+          "llm_invocations": 1,
+          "description": "Evaluación científica del modelo y Grad-CAM",
+          "estimated_tokens": "2000-4000"
+        },
+        "writer_node": {
+          "llm_invocations": "1-3 (depending on review cycles)",
+          "description": "Generación de reporte científico en Markdown",
+          "estimated_tokens": "4000-8000"
+        },
+        "reviewer_node": {
+          "llm_invocations": "1-3 (depending on review cycles)",
+          "description": "Evaluación con score numérico",
+          "estimated_tokens": "2000-4000"
+        }
+      },
+      "total_estimated_tokens": {
+        "min": 11000,
+        "max": 25000,
+        "typical": 18000
+      },
+      "estimated_cost_by_model": {
+        "google/gemini-2.5-flash": {
+          "cost_per_1M_input_tokens": 0.15,
+          "cost_per_1M_output_tokens": 0.60,
+          "estimated_total_usd": 0.005
+        },
+        "openai/gpt-4o-mini": {
+          "cost_per_1M_input_tokens": 0.15,
+          "cost_per_1M_output_tokens": 0.60,
+          "estimated_total_usd": 0.006
+        },
+        "anthropic/claude-3-haiku": {
+          "cost_per_1M_input_tokens": 0.25,
+          "cost_per_1M_output_tokens": 1.25,
+          "estimated_total_usd": 0.012
+        }
+      },
+      "estimated_time": "2-5 min (API dependent)",
+      "estimated_cost_usd_typical": 0.005
+    }
+  },
+  "total_estimated_cost": {
+    "per_execution": {
+      "min_usd": 0.003,
+      "max_usd": 0.015,
+      "typical_usd": 0.005
+    },
+    "per_student_full_course": {
+      "note": "Assuming 1-2 executions of NB04 during the course",
+      "estimated_usd": 0.01
+    }
+  },
+  "notes": [
+    "NB01-NB03 are completely free (local computation only)",
+    "NB04 cost depends on the LLM model used and number of review cycles",
+    "arXiv API is free and does not require authentication",
+    "ChromaDB runs in-memory (EphemeralClient), no storage costs",
+    "ResNet-18 weights are cached after first download (~45MB)"
+  ]
+}

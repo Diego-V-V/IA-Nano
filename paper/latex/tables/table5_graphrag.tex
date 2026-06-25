@@ -1,0 +1,21 @@
+% Table 5: Graph RAG Backend Selection Criteria
+\begin{table}[htbp]
+\centering
+\caption{Graph RAG backend selection criteria based on research requirements. Decision framework maps data volume, query complexity, and deployment constraints to optimal storage engine.}
+\label{tab:graphrag}
+\scriptsize
+\begin{tabular}{@{}lcccp{3cm}@{}}
+\toprule
+\textbf{Backend} & \textbf{Data Vol.} & \textbf{Query} & \textbf{Deploy} & \textbf{Use Case} \\
+\midrule
+NetworkX & <10K & Simple & No server & Demo, teaching \\
+Kùzu & <1M & Multi-hop & Embedded & Local research \\
+Neo4j & >1M & Complex & Server & Production scale \\
+Graphiti & Any & Temporal & Cloud & Agent memory \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3cm}
+\footnotesize
+\textit{Selection example (nanomaterials):} Prototype phase → NetworkX (500 clusters, <1 min setup); Active research → Kùzu (50K Materials Project entries, embedded); Production → Neo4j (150K+ materials, complex queries); Agent memory → Graphiti (multi-session history tracking).
+\end{table}

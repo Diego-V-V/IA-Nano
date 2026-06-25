@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEM Multi-Agent Analyzer — Antigravity Nano</title>
+<meta name="description" content="Sistema Multi-Agente para Clasificación y Medición de Nanopartículas en imágenes SEM">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg-primary:#0a0e1a;--bg-secondary:#111827;--bg-card:#1a1f35;
+--bg-glass:rgba(26,31,53,0.7);--border-glass:rgba(99,102,241,0.2);
+--accent:#6366f1;--accent-glow:rgba(99,102,241,0.4);
+--accent2:#06b6d4;--accent3:#8b5cf6;
+--success:#10b981;--warning:#f59e0b;--error:#ef4444;
+--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;
+--radius:16px;--radius-sm:10px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(99,102,241,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(6,182,212,0.06) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px}
+
+/* Header */
+header{text-align:center;padding:40px 0 32px}
+header h1{font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,#6366f1,#06b6d4,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;letter-spacing:-0.5px}
+header p{color:var(--text-secondary);font-size:1rem;font-weight:400}
+.badge-row{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.badge{padding:4px 14px;border-radius:20px;font-size:0.75rem;font-weight:600;border:1px solid var(--border-glass);background:var(--bg-glass);backdrop-filter:blur(12px);color:var(--text-secondary)}
+.badge.active{border-color:var(--success);color:var(--success)}
+
+/* Cards */
+.card{background:var(--bg-glass);backdrop-filter:blur(16px);border:1px solid var(--border-glass);border-radius:var(--radius);padding:24px;transition:all 0.3s ease}
+.card:hover{border-color:rgba(99,102,241,0.4);box-shadow:0 0 30px rgba(99,102,241,0.1)}
+.card h2{font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card h2 .icon{font-size:1.3rem}
+
+/* Layout */
+.grid-main{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.full-width{grid-column:1/-1}
+@media(max-width:900px){.grid-main{grid-template-columns:1fr}}
+
+/* Upload Zone */
+.upload-zone{border:2px dashed rgba(99,102,241,0.3);border-radius:var(--radius);padding:48px 24px;text-align:center;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(99,102,241,0.05);transform:translateY(-2px)}
+.upload-zone .upload-icon{font-size:3rem;margin-bottom:16px;opacity:0.7}
+.upload-zone h3{font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.upload-zone p{color:var(--text-muted);font-size:0.85rem}
+.upload-zone input[type=file]{display:none}
+.upload-zone .preview{max-width:100%;max-height:220px;border-radius:var(--radius-sm);margin-top:12px;display:none}
+
+/* Button */
+.btn{padding:12px 32px;border:none;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff;box-shadow:0 4px 20px var(--accent-glow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-sm{padding:8px 16px;font-size:0.8rem;border-radius:8px}
+
+/* Progress */
+.progress-bar{width:100%;height:6px;background:var(--bg-secondary);border-radius:3px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width 0.6s ease;width:0%}
+.agent-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.agent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--radius-sm);background:var(--bg-secondary);font-size:0.85rem;transition:all 0.3s}
+.agent-item .status{width:10px;height:10px;border-radius:50%;background:var(--text-muted);flex-shrink:0;transition:all 0.3s}
+.agent-item.running .status{background:var(--warning);box-shadow:0 0 8px var(--warning);animation:pulse 1.5s infinite}
+.agent-item.done .status{background:var(--success);box-shadow:0 0 8px rgba(16,185,129,0.4)}
+.agent-item.error .status{background:var(--error)}
+.agent-item .time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* Results */
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.stat-card{background:var(--bg-secondary);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.stat-card .value{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-card .label{font-size:0.72rem;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* Images */
+.img-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.img-grid img{width:100%;border-radius:var(--radius-sm);border:1px solid var(--border-glass)}
+.img-grid .img-label{text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:4px}
+@media(max-width:600px){.img-grid{grid-template-columns:1fr}}
+
+/* Report */
+.report-container{background:var(--bg-secondary);border-radius:var(--radius-sm);padding:24px;font-size:0.9rem;line-height:1.7;max-height:600px;overflow-y:auto}
+.report-container h1{font-size:1.4rem;margin:16px 0 8px;color:var(--accent)}
+.report-container h2{font-size:1.15rem;margin:14px 0 6px;color:var(--accent2)}
+.report-container h3{font-size:1rem;margin:10px 0 4px}
+.report-container table{width:100%;border-collapse:collapse;margin:12px 0}
+.report-container th,.report-container td{padding:8px 12px;border:1px solid var(--border-glass);text-align:left;font-size:0.82rem}
+.report-container th{background:var(--bg-card);font-weight:600}
+.report-container blockquote{border-left:3px solid var(--accent);padding-left:16px;margin:12px 0;color:var(--text-secondary);font-style:italic}
+.report-container strong{color:var(--accent)}
+.report-container hr{border:none;border-top:1px solid var(--border-glass);margin:16px 0}
+.report-container::-webkit-scrollbar{width:6px}
+.report-container::-webkit-scrollbar-track{background:transparent}
+.report-container::-webkit-scrollbar-thumb{background:var(--border-glass);border-radius:3px}
+
+/* Model info */
+.model-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
+.model-info .mi{background:var(--bg-secondary);padding:10px;border-radius:8px;text-align:center}
+.model-info .mi .v{font-size:1.1rem;font-weight:700;color:var(--success)}
+.model-info .mi .l{font-size:0.7rem;color:var(--text-muted);margin-top:2px}
+
+/* Chat */
+.chat-panel{display:flex;flex-direction:column;height:480px}
+.chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0;scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:5px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border-glass);border-radius:3px}
+.chat-bubble{max-width:85%;padding:12px 16px;border-radius:14px;font-size:0.87rem;line-height:1.6;animation:fadeIn 0.3s ease}
+.chat-bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff;border-bottom-right-radius:4px}
+.chat-bubble.assistant{align-self:flex-start;background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border-glass);border-bottom-left-radius:4px}
+.chat-bubble.assistant strong{color:var(--accent2)}
+.chat-bubble .meta{font-size:0.68rem;color:var(--text-muted);margin-top:6px;display:flex;gap:8px;align-items:center}
+.chat-bubble .rag-badge{background:rgba(6,182,212,0.15);color:var(--accent2);padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:600}
+.chat-input-row{display:flex;gap:8px;margin-top:12px}
+.chat-input-row input{flex:1;padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-glass);background:var(--bg-secondary);color:var(--text-primary);font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;transition:border 0.2s}
+.chat-input-row input:focus{border-color:var(--accent)}
+.chat-input-row input::placeholder{color:var(--text-muted)}
+.chat-typing{display:flex;gap:4px;padding:8px 16px;align-self:flex-start}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--text-muted);animation:typingDot 1.4s infinite}
+.chat-typing span:nth-child(2){animation-delay:0.2s}
+.chat-typing span:nth-child(3){animation-delay:0.4s}
+@keyframes typingDot{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+
+.hidden{display:none !important}
+.fade-in{animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<h1>⚛ SEM Multi-Agent Analyzer</h1>
+<p>Sistema Multi-Agente para Clasificación y Medición de Nanopartículas</p>
+<div class="badge-row">
+<span class="badge">ResNet-18</span>
+<span class="badge">Grad-CAM</span>
+<span class="badge">RAG ChromaDB</span>
+<span class="badge">OpenRouter LLM</span>
+<span class="badge active" id="badge-status">● Sistema Listo</span>
+</div>
+</header>
+
+<div class="grid-main">
+<!-- Upload -->
+<div class="card" id="upload-card">
+<h2><span class="icon">📤</span> Cargar Imagen SEM</h2>
+<div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+<input type="file" id="file-input" accept="image/*">
+<div id="upload-placeholder">
+<div class="upload-icon">🔬</div>
+<h3>Arrastra una imagen SEM aquí</h3>
+<p>o haz clic para seleccionar — PNG, JPG, TIFF, BMP</p>
+</div>
+<img class="preview" id="preview-img" alt="Preview">
+</div>
+
+<div style="margin-top:16px;">
+<input type="text" id="compound-input" placeholder="Compuesto (ej. Au, TiO2, ZnO)..." style="width:100%; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); background: var(--bg-secondary); color: var(--text-primary); font-family: 'Inter', sans-serif;">
+</div>
+
+<div style="margin-top:16px;display:flex;gap:12px;align-items:center">
+<button class="btn btn-primary" id="analyze-btn" disabled onclick="analyzeImage()">
+<span id="btn-text">🚀 Analizar con Multi-Agente</span>
+</button>
+<span id="file-info" style="font-size:0.8rem;color:var(--text-muted)"></span>
+</div>
+</div>
+
+<!-- Pipeline Progress -->
+<div class="card" id="progress-card">
+<h2><span class="icon">🤖</span> Pipeline Multi-Agente</h2>
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+<ul class="agent-list" id="agent-list">
+<li class="agent-item" data-agent="classifier"><span class="status"></span>Clasificador (ResNet-18)<span class="time"></span></li>
+<li class="agent-item" data-agent="measurer"><span class="status"></span>Medidor de Partículas<span class="time"></span></li>
+<li class="agent-item" data-agent="visualizer"><span class="status"></span>Visualizador (Grad-CAM)<span class="time"></span></li>
+<li class="agent-item" data-agent="scientist"><span class="status"></span>Científico (LLM)<span class="time"></span></li>
+<li class="agent-item" data-agent="reporter"><span class="status"></span>Reportero (LLM)<span class="time"></span></li>
+</ul>
+<p id="pipeline-status" style="margin-top:12px;font-size:0.85rem;color:var(--text-muted)">Esperando imagen...</p>
+</div>
+
+<!-- Classification Results -->
+<div class="card hidden" id="classification-card">
+<h2><span class="icon">🏷️</span> Clasificación</h2>
+<div class="result-grid" id="classification-results"></div>
+</div>
+
+<!-- Measurements -->
+<div class="card hidden" id="measurements-card">
+<h2><span class="icon">📏</span> Mediciones Morfológicas</h2>
+<div class="result-grid" id="measurement-results"></div>
+<p id="morphology-text" style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary)"></p>
+</div>
+
+<!-- Grad-CAM -->
+<div class="card full-width hidden" id="gradcam-card">
+<h2><span class="icon">🔥</span> Interpretabilidad — Grad-CAM</h2>
+<div class="img-grid" id="gradcam-images"></div>
+<p id="activation-text" style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary)"></p>
+</div>
+
+<!-- Report -->
+<div class="card full-width hidden" id="report-card">
+<h2><span class="icon">📄</span> Reporte Científico</h2>
+<div class="report-container" id="report-content"></div>
+</div>
+
+<!-- Chat -->
+<div class="card full-width hidden" id="chat-card">
+<h2><span class="icon">💬</span> Chat de Seguimiento — Consulta al Científico IA</h2>
+<div class="chat-panel">
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-bubble assistant">¡Hola! Soy el asistente científico. Puedes preguntarme sobre el reporte generado, las propiedades del material, aplicaciones, o cualquier duda sobre el análisis SEM. Mis respuestas están respaldadas por literatura científica (RAG).</div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Escribe tu pregunta sobre el reporte..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="btn btn-primary btn-sm" onclick="sendChat()" id="chat-send-btn">Enviar</button>
+  </div>
+</div>
+</div>
+
+<!-- Model Info -->
+<div class="card full-width" id="model-card">
+<h2><span class="icon">🧠</span> Modelo Pre-entrenado</h2>
+<p style="font-size:0.85rem;color:var(--text-secondary)">ResNet-18 fine-tuned sobre NFFA-EUROPE SEM Dataset — Clasificación binaria (Nanopartículas vs Nanohilos)</p>
+<div class="model-info" id="model-info"></div>
+</div>
+</div>
+</div>
+
+<script>
+const API = window.location.protocol === 'file:' ? 'http://localhost:8000' : '';
+let selectedFile = null;
+
+// ── Upload ──
+const zone = document.getElementById('upload-zone');
+const fileInput = document.getElementById('file-input');
+const preview = document.getElementById('preview-img');
+const placeholder = document.getElementById('upload-placeholder');
+const analyzeBtn = document.getElementById('analyze-btn');
+
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('drag-over');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+function handleFile(file) {
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+  analyzeBtn.disabled = false;
+  document.getElementById('file-info').textContent = `${file.name} (${(file.size/1024).toFixed(0)} KB)`;
+}
+
+// ── Analyze ──
+async function analyzeImage() {
+  if (!selectedFile) return;
+  analyzeBtn.disabled = true;
+  document.getElementById('btn-text').textContent = '⏳ Analizando...';
+  document.getElementById('badge-status').textContent = '● Procesando';
+  document.getElementById('badge-status').style.color = 'var(--warning)';
+
+  // Reset
+  ['classification-card','measurements-card','gradcam-card','report-card'].forEach(id =>
+    document.getElementById(id).classList.add('hidden'));
+  resetAgents();
+  simulateProgress();
+
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+  const compoundValue = document.getElementById('compound-input').value.trim() || "Desconocido";
+  formData.append('compound', compoundValue);
+
+  try {
+    const resp = await fetch(`${API}/api/analyze`, { method: 'POST', body: formData });
+    if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail || resp.statusText); }
+    const data = await resp.json();
+    displayResults(data);
+  } catch (err) {
+    document.getElementById('pipeline-status').textContent = `❌ Error: ${err.message}`;
+    document.getElementById('badge-status').textContent = '● Error';
+    document.getElementById('badge-status').style.color = 'var(--error)';
+  } finally {
+    analyzeBtn.disabled = false;
+    document.getElementById('btn-text').textContent = '🚀 Analizar con Multi-Agente';
+  }
+}
+
+function resetAgents() {
+  document.querySelectorAll('.agent-item').forEach(el => {
+    el.className = 'agent-item';
+    el.querySelector('.time').textContent = '';
+  });
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('pipeline-status').textContent = 'Ejecutando pipeline...';
+}
+
+function simulateProgress() {
+  const agents = ['classifier','measurer','visualizer','scientist','reporter'];
+  let i = 0;
+  const iv = setInterval(() => {
+    if (i >= agents.length) { clearInterval(iv); return; }
+    const el = document.querySelector(`[data-agent="${agents[i]}"]`);
+    if (el) el.classList.add('running');
+    document.getElementById('progress-fill').style.width = `${((i+1)/agents.length)*100}%`;
+    if (i > 0) {
+      const prev = document.querySelector(`[data-agent="${agents[i-1]}"]`);
+      if (prev && prev.classList.contains('running')) { prev.classList.remove('running'); prev.classList.add('done'); }
+    }
+    i++;
+  }, 2000);
+}
+
+// ── Display Results ──
+function displayResults(data) {
+  // Mark all agents done
+  const completed = data.agents_completed || [];
+  document.querySelectorAll('.agent-item').forEach(el => {
+    const agent = el.dataset.agent;
+    el.classList.remove('running');
+    el.classList.add(completed.includes(agent) ? 'done' : 'error');
+  });
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('pipeline-status').textContent =
+    `✓ Completado — ${data.agents_success}/${data.agents_total} agentes — ${data.total_elapsed_s}s`;
+  document.getElementById('badge-status').textContent = '● Completado';
+  document.getElementById('badge-status').style.color = 'var(--success)';
+
+  // Times
+  if(data.classification?.elapsed_s) setTime('classifier', data.classification.elapsed_s);
+  if(data.measurements?.elapsed_s) setTime('measurer', data.measurements.elapsed_s);
+  if(data.visualization?.elapsed_s) setTime('visualizer', data.visualization.elapsed_s);
+  if(data.scientific_analysis?.elapsed_s) setTime('scientist', data.scientific_analysis.elapsed_s);
+  if(data.report_elapsed_s) setTime('reporter', data.report_elapsed_s);
+
+  // Classification
+  if (data.classification) {
+    const c = data.classification;
+    const el = document.getElementById('classification-results');
+    el.innerHTML = `
+      <div class="stat-card"><div class="value">${c.label||'N/A'}</div><div class="label">Clase</div></div>
+      <div class="stat-card"><div class="value">${(c.confidence*100).toFixed(1)}%</div><div class="label">Confianza</div></div>
+      <div class="stat-card"><div class="value">${(c.probabilities?.nanoparticles*100||0).toFixed(1)}%</div><div class="label">P(Nanopartículas)</div></div>
+      <div class="stat-card"><div class="value">${(c.probabilities?.nanowires*100||0).toFixed(1)}%</div><div class="label">P(Nanohilos)</div></div>`;
+    showCard('classification-card');
+  }
+
+  // Measurements
+  if (data.measurements?.statistics) {
+    const s = data.measurements.statistics;
+    const cal = data.measurements.scale_calibration || {};
+    const el = document.getElementById('measurement-results');
+
+    // Icono y color según confianza de calibración
+    const confColors = {high: 'var(--success)', medium: 'var(--warning)', low: 'var(--text-muted)'};
+    const confLabels = {high: '✓ Alta', medium: '~ Media', low: '⚠ Baja'};
+    const confColor = confColors[cal.confidence] || 'var(--text-muted)';
+    const confLabel = confLabels[cal.confidence] || 'N/A';
+
+    el.innerHTML = `
+      <div class="stat-card"><div class="value">${s.count}</div><div class="label">Estructuras</div></div>
+      <div class="stat-card"><div class="value">${s.diameter_mean_nm?.toFixed(0)||0}</div><div class="label">Ø medio (nm)</div></div>
+      <div class="stat-card"><div class="value">±${s.diameter_std_nm?.toFixed(0)||0}</div><div class="label">Desv. Est.</div></div>
+      <div class="stat-card"><div class="value">${s.aspect_ratio_mean?.toFixed(2)||0}</div><div class="label">Aspect Ratio</div></div>
+      <div class="stat-card"><div class="value">${s.circularity_mean?.toFixed(3)||0}</div><div class="label">Circularidad</div></div>
+      <div class="stat-card"><div class="value" style="font-size:1rem">${cal.nm_per_px || '10'}</div><div class="label">nm/px</div></div>`;
+
+    // Info de calibración
+    const calInfo = cal.details || '';
+    const calMethod = cal.method === 'ocr' ? '🔤 OCR' : cal.method === 'bar_heuristic' ? '📐 Heurística' : '📏 Default';
+    document.getElementById('morphology-text').innerHTML =
+      `${data.measurements.morphology_interpretation || ''}<br>` +
+      `<span style="font-size:0.78rem;color:${confColor}">` +
+      `<strong>Calibración:</strong> ${calMethod} — Confianza: ${confLabel} — ${calInfo}</span>`;
+    showCard('measurements-card');
+  }
+
+  // Grad-CAM
+  if (data.visualization?.overlay_base64) {
+    const v = data.visualization;
+    const el = document.getElementById('gradcam-images');
+    el.innerHTML = `
+      <div><img src="data:image/png;base64,${v.original_base64}" alt="Original"><div class="img-label">Original (224×224)</div></div>
+      <div><img src="data:image/png;base64,${v.heatmap_base64}" alt="Heatmap"><div class="img-label">Grad-CAM Heatmap</div></div>
+      <div><img src="data:image/png;base64,${v.overlay_base64}" alt="Overlay"><div class="img-label">Superposición</div></div>`;
+    const aa = v.activation_analysis;
+    if (aa) document.getElementById('activation-text').textContent = aa.interpretation || '';
+    showCard('gradcam-card');
+  }
+
+  // Report
+  if (data.report) {
+    document.getElementById('report-content').innerHTML = markdownToHtml(data.report);
+    showCard('report-card');
+    // Mostrar chat después del reporte
+    showCard('chat-card');
+  }
+}
+
+function setTime(agent, s) {
+  const el = document.querySelector(`[data-agent="${agent}"] .time`);
+  if (el) el.textContent = `${s}s`;
+}
+function showCard(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
+  el.classList.add('fade-in');
+}
+
+// Simple markdown to HTML
+function markdownToHtml(md) {
+  return md
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^\> (.*$)/gm, '<blockquote>$1</blockquote>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/^\| (.+) \|$/gm, (m) => {
+      const cells = m.split('|').filter(c=>c.trim()).map(c=>`<td>${c.trim()}</td>`).join('');
+      return `<tr>${cells}</tr>`;
+    })
+    .replace(/^- (.*$)/gm, '<li>$1</li>')
+    .replace(/^\d+\. (.*$)/gm, '<li>$1</li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    ;
+}
+
+// ── Chat de Seguimiento ──
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const messagesDiv = document.getElementById('chat-messages');
+
+  // Agregar burbuja del usuario
+  messagesDiv.innerHTML += `<div class="chat-bubble user">${escapeHtml(msg)}</div>`;
+  input.value = '';
+  input.disabled = true;
+  document.getElementById('chat-send-btn').disabled = true;
+
+  // Indicador de typing
+  const typingId = 'typing-' + Date.now();
+  messagesDiv.innerHTML += `<div class="chat-typing" id="${typingId}"><span></span><span></span><span></span></div>`;
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+  try {
+    const resp = await fetch(`${API}/api/chat`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await resp.json();
+
+    // Remover typing
+    const typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+
+    // Burbuja del asistente
+    const ragBadge = data.rag_used ? '<span class="rag-badge">📚 RAG</span>' : '';
+    messagesDiv.innerHTML += `
+      <div class="chat-bubble assistant">
+        ${markdownToHtml(data.response || 'Sin respuesta.')}
+        <div class="meta">${ragBadge}<span>${data.model || ''}</span></div>
+      </div>`;
+  } catch (err) {
+    const typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+    messagesDiv.innerHTML += `<div class="chat-bubble assistant">❌ Error de conexión: ${err.message}</div>`;
+  }
+
+  input.disabled = false;
+  document.getElementById('chat-send-btn').disabled = false;
+  input.focus();
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function escapeHtml(text) {
+  const d = document.createElement('div');
+  d.textContent = text;
+  return d.innerHTML;
+}
+
+// ── Load model info ──
+fetch(`${API}/api/model-info`).then(r=>r.json()).then(data=>{
+  const el = document.getElementById('model-info');
+  const m = data.metrics||{};
+  el.innerHTML = `
+    <div class="mi"><div class="v">${(m.accuracy*100).toFixed(1)}%</div><div class="l">Accuracy</div></div>
+    <div class="mi"><div class="v">${(m.f1_score*100).toFixed(1)}%</div><div class="l">F1-Score</div></div>
+    <div class="mi"><div class="v">${(m.auc_roc*100).toFixed(1)}%</div><div class="l">AUC-ROC</div></div>
+    <div class="mi"><div class="v">${(m.precision*100).toFixed(1)}%</div><div class="l">Precision</div></div>
+    <div class="mi"><div class="v">${(m.recall*100).toFixed(1)}%</div><div class="l">Recall</div></div>
+    <div class="mi"><div class="v">${data.test_size}</div><div class="l">Test imgs</div></div>`;
+}).catch(()=>{});
+</script>
+</body>
+</html>

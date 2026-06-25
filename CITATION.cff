@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata from this file.
+title: >-
+  Antigravity Nano Research Multiagentic Core: An Open Educational
+  Framework for Multi-Agent AI in Computational Nanotechnology
+authors:
+  - family-names: Yudico-Anaya
+    given-names: "Luis Jose"
+    orcid: "https://orcid.org/0000-0002-7490-3304"
+    email: ljyudico@ucemich.edu.mx
+    affiliation: "Universidad de La Cienega del Estado de Michoacan de Ocampo"
+version: 1.0.0
+date-released: "2026-04-08"
+license: Apache-2.0
+repository-code: >-
+  https://github.com/Multiagent-AI-Lab/Antigravity-Nano-Research-Multiagentic-Core
+url: >-
+  https://multiagent-ai-lab.github.io/Antigravity-Nano-Research-Multiagentic-Core/
+abstract: >-
+  Antigravity Nano Research Multiagentic Core is an open-source educational
+  and research framework that integrates multi-agent AI systems with
+  computational nanotechnology. It provides a structured six-unit curriculum
+  (25 Jupyter notebooks) covering nanoscale simulation, machine learning for
+  materials, and multi-agent orchestration using LangGraph, CrewAI, Google ADK,
+  and smolagents. The framework features a reproducible demonstration
+  system (Au13 nanoclusters) executable without API keys, a unified LLM routing
+  layer supporting four backends (OpenRouter, Google Gemini, OpenAI, Ollama),
+  Graph RAG with four storage backends, and MCP (Model Context Protocol)
+  integration for computational tools.
+  All components are validated with 102 automated tests (pytest 9.0.2).
+keywords:
+  - multi-agent systems
+  - nanotechnology
+  - computational materials science
+  - large language models
+  - graph retrieval-augmented generation
+  - model context protocol
+  - scientific computing
+  - educational framework
+  - LangGraph
+  - Python
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Yudico-Anaya
+      given-names: Luis José
+      orcid: "https://orcid.org/0000-0002-7490-3304"
+      affiliation: >-
+        Universidad de La Cienega del Estado de Michoacan de Ocampo
+  title: >-
+    Antigravity Nano Research Multiagentic Core: An Open Educational
+    Framework for Multi-Agent AI in Computational Nanotechnology
+  journal: Journal of Open Source Software
+  year: 2026
+  doi: 10.21105/joss.XXXXX

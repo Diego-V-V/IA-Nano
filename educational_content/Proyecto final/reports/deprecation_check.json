@@ -1,0 +1,17 @@
+{
+  "status": "ERRORS",
+  "warnings": [],
+  "errors": [
+    "torch no esta instalado",
+    "langchain.agents.create_tool_calling_agent no disponible: module 'langchain.agents' has no attribute 'create_tool_calling_agent'",
+    "langchain.agents.AgentExecutor no disponible: module 'langchain.agents' has no attribute 'AgentExecutor'",
+    "chromadb no esta instalado"
+  ],
+  "versions": {
+    "Python": "3.13.12",
+    "langchain": "1.2.15",
+    "langchain-core": "1.3.0",
+    "langchain-openai": "unknown",
+    "langgraph": "unknown"
+  }
+}

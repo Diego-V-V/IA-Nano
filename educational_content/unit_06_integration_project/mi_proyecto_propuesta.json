@@ -1,32 +1,32 @@
 {
-  "nombre": "...",
-  "fecha": "2026-...",
-  "titulo": "\n    [ESCRIBE EL TITULO DE TU PROYECTO AQUI]\n    ",
-  "pregunta_de_investigacion": "\n    [ESCRIBE UNA PREGUNTA ESPECIFICA Y RESPONDIBLE]\n    Ejemplo: '¿Cual es el tamano optimo de nanoparticulas de ZnO\n    para maximizar la degradacion de azul de metileno bajo luz UV?'\n    ",
-  "justificacion": "\n    [Por que es importante este problema? 2-4 oraciones]\n    ",
-  "dominio": "A",
-  "fuente_de_datos": "\n    [De donde vendran tus datos?]\n    Opciones: dataset del curso (nanoparticles_dataset.csv),\n              Materials Project API, datos sinteticos generados,\n              dataset publico (indicar URL), simulaciones ASE, otro.\n    ",
-  "n_muestras_estimado": 0,
+  "nombre": "Estudiante de NanoIA",
+  "fecha": "2026-06-03",
+  "titulo": "Clasificador Multi-Agente de Morfologías SEM (Nanopartículas vs Nanohilos)",
+  "pregunta_de_investigacion": "¿Es posible clasificar morfologías de nanopartículas y nanohilos en imágenes SEM con alta precisión (>95%) y explicar las decisiones morfológicas utilizando un enfoque combinado de deep learning (ResNet-18) y un sistema multi-agente para orquestar la interpretación científica?",
+  "justificacion": "La clasificación manual de micrografías SEM es tediosa y propensa a errores. Automatizar este proceso acelerará el análisis de calidad de síntesis de nanomateriales. Además, usar Grad-CAM y LLMs orquestados proporcionará una interpretabilidad crucial para aplicaciones científicas y de control de procesos.",
+  "dominio": "D",
+  "fuente_de_datos": "NFFA-EUROPE SEM Dataset (b2share.eudat.eu). DOI: 10.1038/s41598-017-13565-z\nImágenes de Microscopía Electrónica de Barrido reales.",
+  "n_muestras_estimado": 7068,
   "herramientas_a_usar": {
     "U1_modelado_atomistico": false,
     "U2_simulacion_MD_DFT": false,
     "U3_ml_clasico": false,
-    "U3_redes_neuronales": false,
-    "U4_llms_generativa": false,
+    "U3_redes_neuronales": true,
+    "U4_llms_generativa": true,
     "U4_analisis_datos_exp": false,
-    "U5_agentes_langchain": false,
+    "U5_agentes_langchain": true,
     "U5_multiagente_crewai": false,
-    "U5_rag_memoria": false,
-    "U6_api_fastapi": false
+    "U5_rag_memoria": true,
+    "U6_api_fastapi": true
   },
   "pasos_del_proyecto": [
-    "1. ...",
-    "2. ...",
-    "3. ...",
-    "4. ...",
-    "5. ..."
+    "1. Descarga y preprocesamiento de imágenes SEM (Resize, normalización ImageNet).",
+    "2. Entrenamiento de un modelo ResNet-18 preentrenado (Transfer Learning).",
+    "3. Evaluación del modelo e interpretabilidad visual mediante Grad-CAM.",
+    "4. Desarrollo de un sistema multi-agente (Clasificador, Medidor, Visualizador, Científico, Reportero).",
+    "5. Despliegue del pipeline completo a través de una API REST (FastAPI)."
   ],
-  "resultado_principal": "\n    [Que producira tu proyecto? Un modelo, un diseno optimo,\n     una API, un dataset anotado, etc.]\n    ",
-  "metrica_de_exito": "\n    [Como sabras que tu proyecto funciono bien?]\n    Ejemplo: 'R² > 0.80 en prediccion de band gap' o\n             'precision > 85% en clasificacion de morfologia'\n    ",
-  "riesgo_principal": "\n    [Cual es el mayor riesgo de tu proyecto y como lo mitigas?]\n    Ejemplo: 'Si no hay suficientes datos, generare datos sinteticos\n    con el modelo fisico de U2'\n    "
+  "resultado_principal": "Una API FastAPI funcional que exponga un modelo entrenado capaz de clasificar una imagen SEM, junto con un sistema orquestador multi-agente que genere un reporte científico explicativo que incluya mediciones y literatura relacionada.",
+  "metrica_de_exito": "Precisión (Accuracy) > 95% en la clasificación de morfologías (Nanopartículas vs Nanohilos) en el conjunto de prueba.",
+  "riesgo_principal": "El modelo podría sobreajustarse debido a características específicas del equipo SEM en los datos de entrenamiento.\nMitigación: Usaremos Data Augmentation extensivo y transfer learning de ImageNet para asegurar generalización."
 }
