@@ -255,7 +255,7 @@ def initialize_rag():
     try:
         count = collection.count()
         if count == 0:
-            print("📚 [RAG] Indexando base de conocimientos bibliográfica en ChromaDB...")
+            print("[RAG] Indexando base de conocimientos bibliografica en ChromaDB...")
             docs = []
             ids = []
             metadatas = []
@@ -272,11 +272,11 @@ def initialize_rag():
                 })
 
             collection.add(documents=docs, ids=ids, metadatas=metadatas)
-            print(f"📚 [RAG] {len(docs)} referencias bibliográficas indexadas correctamente.")
+            print(f"[RAG] {len(docs)} referencias bibliograficas indexadas correctamente.")
         else:
-            print(f"📚 [RAG] Base de datos activa con {count} documentos.")
+            print(f"[RAG] Base de datos activa con {count} documentos.")
     except Exception as e:
-        print(f"⚠ [RAG] Error inicializando RAG ChromaDB: {e}")
+        print(f"[RAG] Error inicializando RAG ChromaDB: {e}")
 
 
 def query_rag(query: str, n_results: int = 3) -> str:
@@ -305,7 +305,7 @@ def query_rag(query: str, n_results: int = 3) -> str:
         sections = []
         for doc, meta in zip(docs, metas):
             ref = meta.get("reference", "Referencia no disponible")
-            sections.append(f"{doc}\n📖 Referencia: {ref}")
+            sections.append(f"{doc}\nReferencia: {ref}")
 
         return "\n\n---\n\n".join(sections)
     except Exception as e:

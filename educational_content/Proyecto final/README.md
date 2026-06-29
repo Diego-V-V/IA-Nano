@@ -74,19 +74,22 @@ Proyecto final/
 
 ## 🌐 API — Endpoint
 
-### 🔗 URL pública (Render)
-
-```
-https://sem-analyzer-api.onrender.com
-```
-
-> ⚠️ La primera carga puede tardar ~30s (cold start en plan gratuito de Render).
-
-### URL local (desarrollo)
+### 🔗 URL del API (ejecución local)
 
 ```
 http://localhost:8000
 ```
+
+**Para iniciar la API:**
+```bash
+cd "educational_content/Proyecto final"
+python api/main.py
+```
+
+Una vez iniciada, acceder a:
+- **Frontend web:** http://localhost:8000
+- **Swagger UI (documentación interactiva):** http://localhost:8000/docs
+- **Health check:** http://localhost:8000/api/health
 
 ### Endpoints disponibles
 
