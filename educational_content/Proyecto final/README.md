@@ -74,9 +74,15 @@ Proyecto final/
 
 ## 🌐 API — Endpoint
 
-La API se ejecuta localmente con FastAPI + Uvicorn.
+### 🔗 URL pública (Render)
 
-### URL base (local)
+```
+https://sem-analyzer-api.onrender.com
+```
+
+> ⚠️ La primera carga puede tardar ~30s (cold start en plan gratuito de Render).
+
+### URL local (desarrollo)
 
 ```
 http://localhost:8000
